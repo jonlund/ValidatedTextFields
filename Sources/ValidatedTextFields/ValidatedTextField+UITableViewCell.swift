@@ -11,6 +11,7 @@ import UIKit
 @available(iOS 14.0, *)
 extension UITableViewCell {
 	
+	/// for table cells, 1) cover with button. 2) user taps 3) validated TF placed on cell & activated 4) when finished, value gathered and placed back in cell
 	public func inputGetter(configurer: ((UITextField)->Void)? = nil, validator: TextFieldValidator? = nil, completion: @escaping (String?)->Void) {
 		let button = buttonOnCell()
 		
@@ -18,6 +19,17 @@ extension UITableViewCell {
 		if let ro = validator?.readonly, ro == true {
 			return
 		}
+		
+		if let fixedValues = validator?.listOfValues {
+			let actions = fixedValues.map { value in
+				UIAction(title: value) { _ in
+					completion(value)
+				}
+			}
+			button.menu = UIMenu(children: actions)
+			return
+		}
+
 		
 		let action = UIAction(title: "input", image: nil, identifier: .init("input"), discoverabilityTitle: "input") { [weak self] action in
 			guard let self = self else { return }

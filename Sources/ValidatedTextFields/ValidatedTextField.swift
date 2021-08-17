@@ -35,14 +35,6 @@ tf.whenInvalid = [.revert]
 */
 
 
-public extension UITextField {
-	
-	func addValidator(_ validator: TextFieldValidator) {
-		validator.originalDelegate = self.delegate ?? validator.originalDelegate
-		self.delegate = validator
-		validator.apply(self)
-	}
-}
 
 
 
@@ -225,7 +217,47 @@ public class TextFieldValidator: NSObject, UITextFieldDelegate {
 		}
 	}
 	
-	fileprivate func apply(_ to: UITextField) {
+	/// chose a value from the list of Values popup menu
+	func pickedValue(_ value: String) {
+		onFinish?(value)
+	}
+	
+	@available(iOS 14.0, *)
+	func setupListOfValues(_ values: [String], tf: UITextField) {
+		let kTag = 1241234
+		let button: UIButton
+		if let btn = tf.viewWithTag(kTag) as? UIButton {
+			btn.removeTarget(nil, action: nil, for: .allEvents)
+			btn.menu = nil
+			button = btn
+		} else {
+			button = UIButton(type: .custom)
+			tf.addSubview(button)
+			button.translatesAutoresizingMaskIntoConstraints = true
+			button.frame = CGRect(origin: .zero, size: tf.bounds.size)
+			button.autoresizingMask = [.flexibleWidth,.flexibleHeight]
+		}
+		let actions = values.map { value in
+			UIAction(title: value) { [weak self] _ in
+				tf.text = value
+				self?.originalDelegate?.textFieldDidEndEditing?(tf)
+				self?.pickedValue(value)
+			}
+		}
+		button.menu = UIMenu(children: actions)
+		button.showsMenuAsPrimaryAction = true
+	}
+	
+	/// apply appropriate attributes to textfield initially
+	internal func apply(_ to: UITextField) {
+		
+		// if we have a list then cover with a button
+		if #available(iOS 14.0, *),
+			let fixedValues = self.listOfValues {
+			setupListOfValues(fixedValues, tf: to)
+			return
+		}
+		
 		guard let bundle = bundle else { return }
 		if let kt = bundle.keyboardType {
 			to.keyboardType = kt
