@@ -19,7 +19,7 @@ public struct ValidationBundle {
 	public var preselect: Bool?
 	public var capitalizationType: UITextAutocapitalizationType?
 	
-	public init() {}
+	public init(capitalizationType: UITextAutocapitalizationType? = nil) {}
 	
 	public static var percent: ValidationBundle {
 		var bundle = ValidationBundle()

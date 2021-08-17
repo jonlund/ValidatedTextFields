@@ -12,6 +12,9 @@ public extension Validator {
 
 	struct OnlyIn: Validating, InputResponder, ValidationPreprocessing {
 		let chars: String
+		public init(chars: String) {
+			self.chars = chars
+		}
 		static var numbers: OnlyIn {
 			return .init(chars: "1234567890")
 		}

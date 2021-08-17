@@ -452,7 +452,7 @@ public class TextFieldValidator: NSObject, UITextFieldDelegate {
 		currentlyEditing = nil
 	}
 	
-	func unprocessText(_ text: String) -> String {
+	public func unprocessText(_ text: String) -> String {
 		var updated = text
 		for processor in dataTransformers {
 			updated = processor.unprocess(updated)
@@ -460,7 +460,7 @@ public class TextFieldValidator: NSObject, UITextFieldDelegate {
 		return updated
 	}
 	
-	func processText(_ text: String) -> String {
+	public func processText(_ text: String) -> String {
 		var updated = text
 		for processor in dataTransformers {
 			updated = processor.process(updated)

@@ -13,19 +13,19 @@ public extension Validator {
 	struct Length: Validating, InputResponder {
 		let min: Int?
 		let max: Int?
-		init(min: Int) {
+		public init(min: Int) {
 			self.min = min
 			max = nil
 		}
-		init(min: Int, max: Int) {
+		public init(min: Int, max: Int) {
 			self.min = min
 			self.max = max
 		}
-		init(max: Int) {
+		public init(max: Int) {
 			self.min = nil
 			self.max = max
 		}
-		init(exact: Int) {
+		public init(exact: Int) {
 			self.min = exact
 			self.max = exact
 		}

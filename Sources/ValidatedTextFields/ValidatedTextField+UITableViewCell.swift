@@ -9,7 +9,7 @@ import UIKit
 
 
 @available(iOS 14.0, *)
-extension UITableViewCell {
+public extension UITableViewCell {
 	
 	/// for table cells, 1) cover with button. 2) user taps 3) validated TF placed on cell & activated 4) when finished, value gathered and placed back in cell
 	public func inputGetter(configurer: ((UITextField)->Void)? = nil, validator: TextFieldValidator? = nil, completion: @escaping (String?)->Void) {
