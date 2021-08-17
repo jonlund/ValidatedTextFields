@@ -221,17 +221,19 @@ public class TextFieldValidator: NSObject, UITextFieldDelegate {
 	func pickedValue(_ value: String) {
 		onFinish?(value)
 	}
-	
+
+	let kButtonTag = 1241234
+
 	@available(iOS 14.0, *)
 	func setupListOfValues(_ values: [String], tf: UITextField) {
-		let kTag = 1241234
 		let button: UIButton
-		if let btn = tf.viewWithTag(kTag) as? UIButton {
+		if let btn = tf.viewWithTag(kButtonTag) as? UIButton {
 			btn.removeTarget(nil, action: nil, for: .allEvents)
 			btn.menu = nil
 			button = btn
 		} else {
 			button = UIButton(type: .custom)
+			button.tag = kButtonTag
 			tf.addSubview(button)
 			button.translatesAutoresizingMaskIntoConstraints = true
 			button.frame = CGRect(origin: .zero, size: tf.bounds.size)
@@ -256,6 +258,9 @@ public class TextFieldValidator: NSObject, UITextFieldDelegate {
 			let fixedValues = self.listOfValues {
 			setupListOfValues(fixedValues, tf: to)
 			return
+		}
+		else {
+			to.viewWithTag(kButtonTag)?.removeFromSuperview()
 		}
 		
 		guard let bundle = bundle else { return }
