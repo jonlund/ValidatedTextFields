@@ -108,6 +108,8 @@ public class TextFieldValidator: NSObject, UITextFieldDelegate {
 	public var currentTranslation: (textField: UITextField, translated: UIView)?
 	public var delayingKeboardWillShowNotification: Notification?
 	public var listOfValues: [String]?
+	/// for convenience: array of values that correspond to the `listOfValues` strings
+	public var correspondingValues: [Any?]?
 	public let readonly: Bool
 	public var rfid: Bool = false
 	
